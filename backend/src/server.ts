@@ -1,10 +1,14 @@
 import app from './app.js';
+import { connectDB } from './config/db.js';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
-const Port =process.env.Port||5000;
+const PORT = process.env.PORT || 5000;
 
-app.listen(Port,()=>{
-console.log("server is running on port 5000")
+// Database connect karne ke baad server start hoga
+connectDB().then(() => {
+  app.listen(PORT, () => {
+    console.log(`🚀 Server running on port ${PORT}`);
+  });
 });

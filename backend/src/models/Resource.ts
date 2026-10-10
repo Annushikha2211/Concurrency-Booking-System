@@ -4,9 +4,11 @@ import { Schema, model, Document, Types } from 'mongoose';
 export interface IResource extends Document {
   name: string;
   description: string;
+  category: string; // <- YE ADD KIYA
   capacity: number;
+  location: string;
   pricePerHour: number;
-  isActive: boolean; // Temporary disable karne ke liye (e.g., maintenance)
+  isActive: boolean;
   createdBy: Types.ObjectId;
   createdAt: Date;
   updatedAt: Date;
@@ -26,6 +28,18 @@ const resourceSchema = new Schema<IResource>(
       required: [true, 'Description zaroori hai'],
       trim: true,
     },
+    category: {
+      type: String,
+      required: [true, 'Category zaroori hai (e.g., Turf, Room)'],
+      trim: true,
+    },
+
+    location: {
+      type: String,
+      required: [true,'loction is mandatory'],
+      trim: true,
+    },
+
     capacity: {
       type: Number,
       required: [true, 'Capacity zaroori hai'],
@@ -43,7 +57,7 @@ const resourceSchema = new Schema<IResource>(
     createdBy: {
       type: Schema.Types.ObjectId,
       ref: 'User',
-      required: true,
+      required: false, // Optional rakha hai abhi ke liye taaki controller bina error ke save kar sake
     },
   },
   {
